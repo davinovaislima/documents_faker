@@ -95,16 +95,6 @@ for _, row in df.iterrows():
         'Y': int(row['Y'])
     }
 
-# ================= FUNÇÃO DE ROTAÇÃO DO DOCUMENTO FINAL =================
-def aplicar_rotacao_documento(img):
-    angulo = random.choice([0, 2, -2, 180])  # 0: sem rotação, 2/-2 graus leve ou 180 (ponta cabeça)
-    if angulo == 0:
-        return img
-    elif angulo == 180:
-        return img.transpose(Image.ROTATE_180)
-    else:
-        return img.rotate(angulo, expand=True, resample=Image.BICUBIC, fillcolor=(255, 255, 255))
-
 # ================= FUNÇÃO INSERIR IMAGEM (ANTI-SOBREPOSIÇÃO) =================
 def inserir_imagem(base, pasta, item, ocupados):
     if item not in dimensoes:
@@ -163,25 +153,16 @@ for idx in range(1, quantidade + 1):
     ocupados = []  # Lista para controlar áreas ocupadas
 
     # Dados sintéticos
-    nome_paciente = "Paciente de Teste"
-    cpf = "000.000.000-00"
+    nome_paciente = "Alan Geovani Barboza Santos"
+    cpf = "090.929.189-62"
     endereco = CLINIC_ADDRESS
-    idade = "30 anos"
-    crm = "00000/XX"
+    idade = "33 anos"
+    crm = "25.751/BA"
 
     # Título
     titulo = "PRESCRIÇÃO MÉDICA"
     titulo_font = carregar_fonte_negrito(42)
-    titulo_caixa = draw.textbbox((0, 0), titulo, font=titulo_font, stroke_width=1)
-    titulo_largura = titulo_caixa[2] - titulo_caixa[0]
-    draw.text(
-        ((BASE_WIDTH - titulo_largura) / 2, 250),
-        titulo,
-        fill="black",
-        font=titulo_font,
-        stroke_width=1,
-        stroke_fill="black",
-    )
+    draw.text((300, 250), titulo, fill="black", font=titulo_font)
 
     # Cabeçalho
     cabecalho = (
@@ -194,14 +175,14 @@ for idx in range(1, quantidade + 1):
     draw.text((100, 320), cabecalho, fill="black", font=cabecalho_font)
 
     # Texto corpo
-    texto = """MEDICAMENTO DE TESTE - SEM VALIDADE
-Nome do medicamento: Medicamento de Teste A
-Concentração: concentração simulada
-Forma farmacêutica: apresentação de teste
-Quantidade: 2 unidades fictícias
-Posologia: instrução exclusivamente demonstrativa.
-
-DOCUMENTO FICTÍCIO - NÃO UTILIZAR PARA DISPENSAÇÃO."""
+    texto = """PRESCRIÇÃO MÉDICA
+Nome do medicamento: AMOXICILINA + CLAVULANATO DE POTÁSSIO
+Concentração: 600mg/5mL
+Forma farmacêutica:  Suspensão Oral
+Quantidade: 2 Frascos de 50mL
+Posologia: dministrar 2,6 mL (aproximadamente 2,5 a 3 mL) por via oral, de 12 em 12 horas, durante 10
+dias -
+."""
     font = carregar_fonte(28)
 
     linhas = []
@@ -225,9 +206,6 @@ DOCUMENTO FICTÍCIO - NÃO UTILIZAR PARA DISPENSAÇÃO."""
     inserir_imagem(base_img, LOGO_DIR, "hcom", ocupados)
 
     aplicar_carimbos(base_img)
-
-    # 🔥 APLICAR ROTAÇÃO NO DOCUMENTO FINAL INTEIRO
-    base_img = aplicar_rotacao_documento(base_img)
 
     # Salvar PDF
     if not os.path.exists(OUTPUT_DIR):
