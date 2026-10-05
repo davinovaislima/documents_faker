@@ -1,96 +1,161 @@
-✨ Funcionalidades
-✅ Geração de documentos médicos com:
+# Documents Faker
 
-Título aleatório (Atestado, Laudo, Receituário)
+Gerador de documentos médicos fictícios para uso educacional, testes e
+treinamento de modelos de IA. O script cria documentos com dados sintéticos,
+logos, assinaturas, selos e QR Codes e exporta cada variação como PDF.
 
-Nome, CPF, endereço e CRM fictícios
+## Funcionalidades
 
-Corpo de texto simulado
+- Geração de atestados, receituários e laudos médicos fictícios.
+- Dados sintéticos em português do Brasil: nome, CPF, endereço e CRM.
+- Inserção do logotipo HCOM no cabeçalho.
+- Posicionamento dos elementos por meio do arquivo `dimensoes.csv`.
+- Verificação para evitar sobreposição entre imagens.
+- Variações visuais com rotação do documento.
+- Geração automática de 10 arquivos PDF em `output/`.
 
-Inserção automática de:
+> **Aviso:** todos os dados e documentos produzidos são fictícios. Não use os
+> arquivos gerados como documentos reais nem para fins fraudulentos.
 
-Logos (Unimed, Hapvida, Docway, etc.)
+## Requisitos
 
-Selos de assinatura digital
+- Python 3.9 ou superior.
+- Pip.
 
-QR Codes
+As principais bibliotecas utilizadas são Pillow, Faker e Pandas. Todas as
+dependências estão listadas em `requirements.txt`.
 
-Assinaturas
+## Instalação
 
-✅ Controle de posicionamento via CSV (dimensoes.csv)
+Clone o repositório e entre na pasta do projeto:
 
-✅ Anti-sobreposição de elementos (logos, selos, QR)
-
-✅ Geração de variações visuais:
-
-Rotação (leve ou 180°)
-
-Alteração de brilho, opacidade e alinhamento
-
-✅ Salva os arquivos automaticamente em PDF
-
-🗂️ Estrutura de pastas
-
-
-documents_faker/
-├── assets/
-│   ├── ass_elements/   # Assinaturas
-│   ├── fonts/          # Fontes
-│   ├── logo_sign/      # Logos
-│   ├── qr/             # QRCodes
-│   └── selos_rodape/   # Selos
-├── output/             # Arquivos gerados (PDFs)
-├── dimensoes.csv       # Arquivo com posicionamento dos elementos
-├── main.py             # Script principal
-└── README.md           # Este arquivo
-⚙️ Como rodar
-Clone o repositório:
-
+```bash
 git clone https://github.com/mirellaoliveiraa/documents_faker.git
 cd documents_faker
-Crie e ative um ambiente virtual (opcional, recomendado):
+```
 
+Crie e ative um ambiente virtual (recomendado):
 
+### Windows (PowerShell)
 
+```powershell
 python -m venv venv
-venv\Scripts\activate   # No Windows
+.\venv\Scripts\Activate.ps1
+```
+
+### macOS e Linux
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
 Instale as dependências:
 
+```bash
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
 
-pip install -r requirements.txt
-Execute o script:
+O arquivo de dependências contém apenas as bibliotecas utilizadas pelo
+gerador. Isso evita instalar pacotes de outros ambientes que podem não ter
+versões compatíveis com o seu sistema operacional ou com a versão do Python.
 
+## Execução
 
+Com o ambiente virtual ativado, execute:
+
+```bash
 python main.py
-📄 Arquivo dimensoes.csv
-Nele você define onde cada logo, selo ou QR aparece no documento:
+```
 
-nome	arquivo	W	H	X	Y
-unimed	unimed.png	400	90	100	50
-qr	qr.png	120	120	900	1500
-assinatura	sign.png	400	80	60	1475
-selo_icp	icp_brasil.png	300	90	60	1550
+Os arquivos serão salvos em `output/documento_1.pdf` até
+`output/documento_10.pdf`. O script também imprime no terminal o progresso de
+cada documento gerado.
 
-W e H são largura e altura.
+## Configuração do posicionamento
 
-X e Y são as coordenadas no canvas.
+O arquivo `dimensoes.csv` define o tamanho e a posição de cada imagem no
+canvas de `1080 x 1920` pixels. Ele usa as colunas:
 
-🔥 Exemplo de documento gerado
-<img src="https://github.com/mirellaoliveiraa/documents_faker/assets/example.png" width="500"/>
-💻 Tecnologias usadas
-Python 🐍
+| Coluna | Descrição |
+| --- | --- |
+| `nome` | Nome usado pelo script para localizar o elemento |
+| `arquivo` | Nome do arquivo de imagem |
+| `W` | Largura em pixels |
+| `H` | Altura em pixels |
+| `X` | Coordenada horizontal em pixels |
+| `Y` | Coordenada vertical em pixels |
 
-Pillow (PIL)
+Exemplo:
 
-Faker
+```csv
+nome,arquivo,W,H,X,Y
+unimed,unimed.png,385,61,60,51
+qr,qr.png,121,121,1047,1509
+sign,sign.png,399,86,56,1475
+```
 
-Pandas
+As coordenadas `X` e `Y` indicam o canto superior esquerdo do elemento.
+Imagens que ultrapassarem os limites do canvas serão reposicionadas para
+caber na página.
 
-🤝 Contribuições
-Sinta-se livre para abrir PRs, relatar issues ou sugerir melhorias. Bora construir juntos!
+## Estrutura do projeto
 
-⚠️ Aviso legal
-Este projeto gera dados e documentos completamente fictícios. É destinado exclusivamente para fins educacionais, acadêmicos e treinamento de modelos de IA.
+```text
+documents_faker/
+├── assets/
+│   ├── ass_elements/  # Assinaturas e elementos de assinatura
+│   ├── logo_sign/     # Logos
+│   └── qr/            # QR Codes
+├── dimensoes.csv      # Tamanho e posição dos elementos
+├── main.py            # Script principal
+├── modules/           # Módulos auxiliares
+├── output/            # PDFs e imagens gerados
+├── requirements.txt   # Dependências Python
+└── README.md
+```
 
-⭐ Dá uma estrela se te ajudei! 😍
-🚀 Mirella Oliveira • github.com/mirellaoliveiraa
+Para adicionar um elemento, coloque a imagem na pasta correspondente e
+adicione uma linha para ela em `dimensoes.csv`. O campo `nome` deve
+corresponder ao nome do arquivo sem a extensão.
+
+O logotipo do HCOM incluído no projeto está em `assets/logo_sign/hcom.png` e
+foi configurado no CSV para aparecer no cabeçalho. Por padrão, ele é a única
+imagem inserida nos documentos; QR Codes, assinaturas, selos e outros logos
+não são utilizados.
+
+## Carimbo
+
+O gerador aplica automaticamente um carimbo retangular, centralizado, com o
+texto:
+
+```text
+Dr. Marcone Novais da Silva
+Médico
+CRM-BA 25.751
+```
+
+Os documentos continuam sendo
+simulações para uso educacional e devem ser identificados como fictícios antes
+de qualquer compartilhamento.
+
+O carimbo é textual, sem uma imagem adicional, para manter o logo HCOM como a
+única imagem da receita. Para alterar o texto, edite a constante `STAMP_TEXT`
+no início de `main.py`.
+
+## Exemplo
+
+![Exemplo de documento gerado](output/documento_gerado.png)
+
+## Tecnologias
+
+- [Python](https://www.python.org/)
+- [Pillow](https://python-pillow.org/)
+- [Faker](https://faker.readthedocs.io/)
+- [Pandas](https://pandas.pydata.org/)
+
+## Contribuição
+
+Issues e pull requests são bem-vindos. Ao propor uma alteração, descreva
+como ela foi testada e mantenha os dados gerados estritamente fictícios.
