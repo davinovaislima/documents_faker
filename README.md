@@ -69,9 +69,10 @@ Com o ambiente virtual ativado, execute:
 python main.py
 ```
 
-Os arquivos serão salvos em `output/documento_1.pdf` até
-`output/documento_10.pdf`. O script também imprime no terminal o progresso de
-cada documento gerado.
+Os novos arquivos serão salvos em `output/novos/documento_1.pdf` até
+`output/novos/documento_10.pdf`, sem sobrescrever documentos que já estejam em
+`output/`. O script também imprime no terminal o progresso de cada documento
+gerado.
 
 ## Configuração do posicionamento
 

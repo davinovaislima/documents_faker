@@ -9,7 +9,7 @@ from faker import Faker
 BASE_WIDTH = 1080
 BASE_HEIGHT = 1920
 
-OUTPUT_DIR = "./output"
+OUTPUT_DIR = "./output/novos"
 ASSETS_DIR = "./assets"
 ASS_DIR = os.path.join(ASSETS_DIR, "ass_elements")
 QR_DIR = os.path.join(ASSETS_DIR, "qr")
@@ -17,7 +17,7 @@ LOGO_DIR = os.path.join(ASSETS_DIR, "logo_sign")
 SELOS_DIR = os.path.join(ASSETS_DIR, "selos_rodape")
 FONTS_DIR = os.path.join(ASSETS_DIR, "fonts")
 STAMP_DIR = os.path.join(ASSETS_DIR, "stamp")
-STAMP_TEXT = "Dr. Marcone Novais da Silva\nMédico\nCRM-BA 25.751"
+STAMP_TEXT = "Dr. Exemplo da Silva\nMédico\nCRM-XX 00000"
 
 faker = Faker("pt_BR")
 
@@ -35,6 +35,18 @@ def carregar_fonte(tamanho):
         if os.path.exists(caminho):
             return ImageFont.truetype(caminho, size=tamanho)
     return ImageFont.load_default(size=tamanho)
+
+def carregar_fonte_negrito(tamanho):
+    candidatos = [
+        os.path.join(FONTS_DIR, "arialbd.ttf"),
+        "/System/Library/Fonts/Supplemental/Arial Bold.ttf",
+        "/Library/Fonts/Arial Bold.ttf",
+        "/usr/share/fonts/truetype/msttcorefonts/Arial_Bold.ttf",
+    ]
+    for caminho in candidatos:
+        if os.path.exists(caminho):
+            return ImageFont.truetype(caminho, size=tamanho)
+    return carregar_fonte(tamanho)
 
 def aplicar_carimbos(base):
     """Aplica o carimbo textual e uma imagem opcional ao documento."""
@@ -153,15 +165,21 @@ for idx in range(1, quantidade + 1):
     nome_paciente = "Paciente de Teste"
     cpf = "000.000.000-00"
     endereco = "Rua de Teste, 100 - Cidade/UF"
+    idade = "30 anos"
     crm = "00000/XX"
 
     # Título
     titulo = "PRESCRIÇÃO MÉDICA"
-    titulo_font = carregar_fonte(42)
+    titulo_font = carregar_fonte_negrito(42)
     draw.text((300, 250), titulo, fill="black", font=titulo_font)
 
     # Cabeçalho
-    cabecalho = f"Nome: {nome_paciente}   CPF: {cpf}\nEndereço: {endereco}\nCRM: {crm}\n\n"
+    cabecalho = (
+        f"Nome: {nome_paciente}   CPF: {cpf}\n"
+        f"Idade: {idade}\n"
+        f"Endereço: {endereco}\n"
+        f"CRM: {crm}\n\n"
+    )
     cabecalho_font = carregar_fonte(26)
     draw.text((100, 320), cabecalho, fill="black", font=cabecalho_font)
 
@@ -170,16 +188,21 @@ for idx in range(1, quantidade + 1):
 Nome do medicamento: Medicamento de Teste A
 Concentração: concentração simulada
 Forma farmacêutica: apresentação de teste
-Quantidade: 2 unidades de teste
+Quantidade: 2 unidades fictícias
 Posologia: instrução exclusivamente demonstrativa.
 
 DOCUMENTO FICTÍCIO - NÃO UTILIZAR PARA DISPENSAÇÃO."""
-    linhas = textwrap.wrap(texto, width=70)
     font = carregar_fonte(28)
+
+    linhas = []
+    for paragrafo in texto.splitlines():
+        linhas.extend(textwrap.wrap(paragrafo, width=55) or [""])
 
     for i, linha in enumerate(linhas):
         y = 500 + i * 35
         draw.text((100, y), linha, fill="black", font=font)
+
+    draw.rectangle((40, 40, BASE_WIDTH - 40, BASE_HEIGHT - 40), outline="black", width=3)
 
     # O documento usa somente o logotipo HCOM como imagem institucional.
     inserir_imagem(base_img, LOGO_DIR, "hcom", ocupados)
