@@ -17,7 +17,7 @@ LOGO_DIR = os.path.join(ASSETS_DIR, "logo_sign")
 SELOS_DIR = os.path.join(ASSETS_DIR, "selos_rodape")
 FONTS_DIR = os.path.join(ASSETS_DIR, "fonts")
 STAMP_DIR = os.path.join(ASSETS_DIR, "stamp")
-STAMP_TEXT = "Dr. Exemplo da Silva\nMédico\nCRM-XX 00000"
+STAMP_TEXT = "Dr. Marcone Novais da Silva\nMédico\nCRM-BA 25.751"
 
 faker = Faker("pt_BR")
 
@@ -166,7 +166,14 @@ for idx in range(1, quantidade + 1):
     draw.text((100, 320), cabecalho, fill="black", font=cabecalho_font)
 
     # Texto corpo
-    texto = " ".join([faker.paragraph(nb_sentences=5) for _ in range(3)])
+    texto = """MEDICAMENTO DE TESTE - SEM VALIDADE
+Nome: Produto farmacêutico fictício
+Concentração: concentração simulada
+Forma farmacêutica: apresentação de teste
+Quantidade: 2 unidades de teste
+Posologia: instrução exclusivamente demonstrativa.
+
+DOCUMENTO FICTÍCIO - NÃO UTILIZAR PARA DISPENSAÇÃO."""
     linhas = textwrap.wrap(texto, width=70)
     font = carregar_fonte(28)
 
