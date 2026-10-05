@@ -18,6 +18,7 @@ SELOS_DIR = os.path.join(ASSETS_DIR, "selos_rodape")
 FONTS_DIR = os.path.join(ASSETS_DIR, "fonts")
 STAMP_DIR = os.path.join(ASSETS_DIR, "stamp")
 STAMP_TEXT = "Dr. Exemplo da Silva\nMédico\nCRM-XX 00000"
+CLINIC_ADDRESS = "Avenida Altamirando de Araújo Ramos, 253 - Centro, Simões Filho - BA"
 
 faker = Faker("pt_BR")
 
@@ -201,6 +202,13 @@ DOCUMENTO FICTÍCIO - NÃO UTILIZAR PARA DISPENSAÇÃO."""
     for i, linha in enumerate(linhas):
         y = 500 + i * 35
         draw.text((100, y), linha, fill="black", font=font)
+
+    rodape_font = carregar_fonte(20)
+    rodape_linhas = textwrap.wrap(CLINIC_ADDRESS, width=70)
+    rodape_y = BASE_HEIGHT - 105
+    for i, linha in enumerate(rodape_linhas):
+        largura = draw.textlength(linha, font=rodape_font)
+        draw.text(((BASE_WIDTH - largura) / 2, rodape_y + i * 25), linha, fill="black", font=rodape_font)
 
     draw.rectangle((40, 40, BASE_WIDTH - 40, BASE_HEIGHT - 40), outline="black", width=3)
 
