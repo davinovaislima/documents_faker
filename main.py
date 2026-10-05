@@ -167,7 +167,7 @@ for idx in range(1, quantidade + 1):
 
     # Texto corpo
     texto = """MEDICAMENTO DE TESTE - SEM VALIDADE
-Nome: Produto farmacêutico fictício
+Nome do medicamento: Medicamento de Teste A
 Concentração: concentração simulada
 Forma farmacêutica: apresentação de teste
 Quantidade: 2 unidades de teste
