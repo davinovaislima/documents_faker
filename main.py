@@ -163,11 +163,11 @@ for idx in range(1, quantidade + 1):
     ocupados = []  # Lista para controlar áreas ocupadas
 
     # Dados sintéticos
-    nome_paciente = "Paciente de Teste"
-    cpf = "000.000.000-00"
-    endereco = "Rua de Teste, 100 - Cidade/UF"
-    idade = "30 anos"
-    crm = "00000/XX"
+    nome_paciente = "Alan Geovani Barboza Santos"
+    cpf = "090.929.189-62"
+    endereco = CLINIC_ADDRESS
+    idade = "33 anos"
+    crm = "25.751/BA"
 
     # Título
     titulo = "PRESCRIÇÃO MÉDICA"
@@ -185,14 +185,14 @@ for idx in range(1, quantidade + 1):
     draw.text((100, 320), cabecalho, fill="black", font=cabecalho_font)
 
     # Texto corpo
-    texto = """MEDICAMENTO DE TESTE - SEM VALIDADE
-Nome do medicamento: Medicamento de Teste A
-Concentração: concentração simulada
-Forma farmacêutica: apresentação de teste
-Quantidade: 2 unidades fictícias
-Posologia: instrução exclusivamente demonstrativa.
-
-DOCUMENTO FICTÍCIO - NÃO UTILIZAR PARA DISPENSAÇÃO."""
+    texto = """PRESCRIÇÃO MÉDICA
+Nome do medicamento: AMOXICILINA + CLAVULANATO DE POTÁSSIO
+Concentração: 600mg/5mL
+Forma farmacêutica:  Suspensão Oral
+Quantidade: 2 Frascos de 50mL
+Posologia: dministrar 2,6 mL (aproximadamente 2,5 a 3 mL) por via oral, de 12 em 12 horas, durante 10
+dias -
+."""
     font = carregar_fonte(28)
 
     linhas = []
